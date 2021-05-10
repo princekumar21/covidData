@@ -10,18 +10,20 @@ request("https://www.mohfw.gov.in", callback);
 
 
 
-
+//function for covid related data
 function callback(error, response, html){
     if(!error){
         fs.writeFileSync('covidData.html', html);
         let $ = cheerio.load(html);
 
+        //vaccine related data
         let numberVaccine = $('.col-xs-8.site-stats-count.sitetotal .fullbol span');
         let InfoVaccine = $('.col-xs-2 .covidupdae');
         let todayVaccine = (($(numberVaccine[2]).text()).replace('(', '')).replace(')', '');
         let tillTodayVaccine = (($(numberVaccine[1]).text()).replace('(', '')).replace(')', '');
         let TotalVaccineText = ($(numberVaccine[0]).text());
-
+        
+        //date and time of data
         let covidstatement = $('.covidupdae');
         let statetext = ($(covidstatement[0]).text());
         let date = statetext.substring(29, 40);
@@ -32,39 +34,41 @@ function callback(error, response, html){
         console.log("COVID-19 VACCINATION INDIA STATS updated by "+ date +" " + time);
         console.log();
 
+        //test related data
         let tests = $('.tested');
         let test = (tests.text()).substring(50, 60);
         console.log("Test Done on " + (date.substring(0, 2) - 1) + date.substring(2, 11) +"  :"+test);
         console.log();
 
+        //vaccination realated data
         console.log("Total Vaccination        : "+ tillTodayVaccine.substring(2));
         console.log("Total Vaccinations Today : " + todayVaccine);
         console.log();
 
-        
+        //active cases realted data
         let activeCaseS = $('.bg-blue .mob-hide');
         let activeCase = $(activeCaseS[1]).text();
         console.log("Active Cases             : " + indian_System_separator(activeCase.substring(0, 7)));
         console.log("New Cases                : " + indian_System_separator(activeCase.substring(13, 18)));
         console.log();
 
+        //discharge related data
         let dischargeCases = $('.bg-green .mob-hide');
         let dischargeCase = $(dischargeCases[1]).text();
         console.log("Total Discharged         : " + indian_System_separator(dischargeCase.substring(0, 8)));
         console.log("Discharged Today         : " + indian_System_separator(dischargeCase.substring(14, 20)));
         console.log();
 
+        //death related data
         let deathCases = $('.bg-red .mob-hide');
         let deathCase = $(deathCases[1]).text();
         console.log("Total Death              : " + indian_System_separator(deathCase.substring(0, 6)));
         console.log("Death Today              : " + indian_System_separator(deathCase.substring(15, 19)));
         console.log();
 
+        //this will call main function and find slot and vacciation centers
         main();
         
-        
-
-       
     }
 
 }
@@ -84,6 +88,8 @@ async function main() {
     await tab.click('.pin-search-btn');
     await tab.waitForSelector('.form-check.nomargright label');
     let age = await tab.$$(".form-check.nomargright label", {waitUntil: 'networkidle2'});
+
+    //if for age validation
     if(processData1 > 18 && processData1 <= 44 ){
         for(let i = 0; i < 1; i++){
             await tab.evaluate(function(ele){
@@ -98,10 +104,12 @@ async function main() {
         }
     }
     
+    //to check if slots is available or not
     if ((await tab.$('.main-slider-wrap.col.col-lg-3.col-md-3.col-sm-3.col-xs-12', {waitUntil: 'networkidle2'})) !== null) {
 
         let slotS = await tab.$$(".vaccine-box.vaccine-box1.vaccine-padding", {waitUntil: 'networkidle2'});
         
+        //find number of slots available
         let count = 0;
         for(let i = 0; i < slotS.length; i++){
             let slotAvail = await tab.evaluate(function(ele){
@@ -129,6 +137,8 @@ async function main() {
          console.log();
         console.log("---- List of Vaccination Centers near you ----");
         console.log();
+
+        //find vaccination center name and address
         for(let i = 0; i < centreName.length; i++){
             let centrename = await tab.evaluate(function(ele){
                  return ele.innerText;
@@ -153,19 +163,12 @@ async function main() {
         console.log("Soory, No Vaccination center is available for booking in your area!");
       }
 
-         
-
-    
-   
-        
-    
-
-     browser.close();
        
+     browser.close();
     
 }
 
-//function is use to set numeric value to indian system
+//function is use to set numeric value to indian system for data
 function indian_System_separator(num)
     {
         var x=num;
