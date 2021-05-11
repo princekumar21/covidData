@@ -17,6 +17,7 @@ function callback(error, response, html){
         fs.writeFileSync('covidData.html', html);
         let $ = cheerio.load(html);
 
+        //this will keep record of vaccination 
         let numberVaccine = $('.col-xs-8.site-stats-count.sitetotal .fullbol span');
         let InfoVaccine = $('.col-xs-2 .covidupdae');
         let todayVaccine = (($(numberVaccine[2]).text()).replace('(', '')).replace(')', '');
