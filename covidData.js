@@ -3,6 +3,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const puppy = require("puppeteer");
 
+//for taking PINCODE and AGE
 let processData = process.argv[2];
 let processData1 = process.argv[3];
 
@@ -35,28 +36,32 @@ function callback(error, response, html){
         console.log("                        ------------------                             ");
         console.log();
 
+        //for covid tests done last day
         let tests = $('.tested');
         let test = (tests.text()).substring(50, 60);
         console.log("Test Done on " + (date.substring(0, 2) - 01) + date.substring(2, 11) +" :"+test);
         console.log();
 
+        //for vaccination done today and till today
         console.log("Total Vaccination        : "+ tillTodayVaccine.substring(2));
         console.log("Total Vaccinations Today : " + todayVaccine);
         console.log();
 
-        
+        //total cases and new cases
         let activeCaseS = $('.bg-blue .mob-hide');
         let activeCase = $(activeCaseS[1]).text();
         console.log("Active Cases             : " + indian_System_separator(activeCase.substring(0, 7)));
         console.log("New Cases                : " + indian_System_separator(activeCase.substring(13, 18)));
         console.log();
 
+        //total discharge and new discharge
         let dischargeCases = $('.bg-green .mob-hide');
         let dischargeCase = $(dischargeCases[1]).text();
         console.log("Total Discharged         : " + indian_System_separator(dischargeCase.substring(0, 8)));
         console.log("Discharged Today         : " + indian_System_separator(dischargeCase.substring(14, 20)));
         console.log();
 
+        //total deaths and new deaths
         let deathCases = $('.bg-red .mob-hide');
         let deathCase = $(deathCases[1]).text();
         console.log("Total Death              : " + indian_System_separator(deathCase.substring(0, 6)));
@@ -102,10 +107,12 @@ async function main() {
         }
     }
     
+    //checking center is avail or not, waitting for that selector
     if (await tab.$('.main-slider-wrap.col.col-lg-3.col-md-3.col-sm-3.col-xs-12') !== null) {
 
         let slotS = await tab.$$(".vaccine-box.vaccine-box1.vaccine-padding", {waitUntil: 'networkidle2'});
         
+        //here count will keep how many slot is open
         let count = 0;
         for(let i = 0; i < slotS.length; i++){
             let slotAvail = await tab.evaluate(function(ele){
@@ -133,7 +140,7 @@ async function main() {
          console.log();
          
 
-
+         //this will take centername and address
         await tab.waitForSelector('.main-slider-wrap.col.col-lg-3.col-md-3.col-sm-3.col-xs-12');
         let centreName = await tab.$$(".main-slider-wrap.col.col-lg-3.col-md-3.col-sm-3.col-xs-12 .center-name-title", {waitUntil: 'networkidle2'});
         let centreAdd = await tab.$$(".main-slider-wrap.col.col-lg-3.col-md-3.col-sm-3.col-xs-12 .center-name-text", {waitUntil: 'networkidle2'});
