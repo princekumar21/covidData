@@ -37,7 +37,7 @@ function callback(error, response, html){
         //test related data
         let tests = $('.tested');
         let test = (tests.text()).substring(50, 60);
-        console.log("Test Done on " + (date.substring(0, 2) - 1) + date.substring(2, 11) +"  :"+test);
+        console.log("Test Done on " + (date.substring(0, 2) - 1) + date.substring(2, 11) +" :"+test);
         console.log();
 
         //vaccination realated data
