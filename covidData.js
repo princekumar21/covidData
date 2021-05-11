@@ -63,7 +63,7 @@ function callback(error, response, html){
         let deathCases = $('.bg-red .mob-hide');
         let deathCase = $(deathCases[1]).text();
         console.log("Total Death              : " + indian_System_separator(deathCase.substring(0, 6)));
-        console.log("Death Today              : " + indian_System_separator(deathCase.substring(15, 19)));
+        console.log("Death Today              : " + indian_System_separator(deathCase.substring(12, 16)));
         console.log();
 
         //this will call main function and find slot and vacciation centers
