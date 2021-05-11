@@ -165,13 +165,6 @@ async function main() {
         console.log("Soory, No Vaccination center is available in your area!");
       }
 
-         
-
-    
-   
-        
-    
-
      browser.close();
        
     
