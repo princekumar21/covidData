@@ -44,7 +44,7 @@ function callback(error, response, html){
         console.log();
 
         //for vaccination done today and till today
-        console.log("Total Vaccination        : "+ tillTodayVaccine.substring(2));
+        console.log("Total Vaccination        : "+ tillTodayVaccine.substring(0));
         console.log("Total Vaccinations Today : " + todayVaccine);
         console.log();
 
