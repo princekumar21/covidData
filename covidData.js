@@ -52,7 +52,7 @@ function callback(error, response, html){
         let activeCaseS = $('.bg-blue .mob-hide');
         let activeCase = $(activeCaseS[1]).text();
         console.log("Active Cases             : " + indian_System_separator(activeCase.substring(0, 7)));
-        console.log("New Cases                : " + indian_System_separator(activeCase.substring(13, 18)));
+        console.log("New Cases                : " + indian_System_separator(activeCase.substring(13, 17)));
         console.log();
 
         //total discharge and new discharge
